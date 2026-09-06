@@ -54,7 +54,14 @@ void setup() {
   radio.openReadingPipe(0, pipe);    // открываем трубу на приём
   radio.startListening();            // начинаем слушать
   
-  
+  pinMode(2, OUTPUT);   digitalWrite(2, 0);
+  pinMode(3, OUTPUT);   digitalWrite(3, 0);
+  pinMode(4, OUTPUT);   digitalWrite(4, 0);
+  pinMode(5, OUTPUT);   digitalWrite(5, 0);
+  pinMode(6, OUTPUT);   digitalWrite(6, 0);
+  pinMode(9, OUTPUT);   digitalWrite(9, 0);
+  pinMode(10, OUTPUT);  digitalWrite(10, 0);
+
   Serial.println("Приёмник запущен, ждём данные...");
 }
 
