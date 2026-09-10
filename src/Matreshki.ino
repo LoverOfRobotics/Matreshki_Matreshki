@@ -7,6 +7,7 @@ byte matreshka_code_OK = 1;   //1, 2, 3, 4
 
 byte nextRadioByte = 10;
 void waitForNextRadio(){
+  //Тут может несколько раз (обычно 3 раза) принять старый код - это читает из буфера, но в коде есть защита - ожидание именно nextRadioByte, так что норм
   byte receivedData = 0;
 
   while (receivedData != nextRadioByte){
@@ -33,9 +34,9 @@ void SendOK(){
   for (int i = 0; i < 10; i++){
     if (radio.write(&matreshka_code_OK, 1) == false)
       Serial.println("Ошибка");
-    else
-      Serial.println("Trying " + (String)i + " OK");
-    delay(50);
+    // else
+      // Serial.println("Trying " + (String)i + " OK");
+    delay(80);
   }
   
   radio.startListening();
@@ -48,7 +49,7 @@ void setup() {
   radio.begin();
   radio.setChannel(0x67);            // тот же канал
   radio.setDataRate(RF24_250KBPS);   // та же скорость
-  radio.setPALevel(RF24_PA_MAX);    	// Уровень питания усилителя RF24_PA_MIN, RF24_PA_LOW, RF24_PA_HIGH and RF24_PA_MAX ((RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_HIGH=-6dBm, RF24_PA_MAX=0dBm).
+  radio.setPALevel(RF24_PA_LOW);    	// Уровень питания усилителя RF24_PA_MIN, RF24_PA_LOW, RF24_PA_HIGH and RF24_PA_MAX ((RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_HIGH=-6dBm, RF24_PA_MAX=0dBm).
   radio.setAutoAck(false);           // автоответ выключен (как у передатчика)
   radio.setPayloadSize(1);           // ждём 1 байт
   radio.openReadingPipe(0, pipe);    // открываем трубу на приём
@@ -67,7 +68,7 @@ void setup() {
 
 void loop() {
   waitForNextRadio();
-  Serial.println("Radio byte received1");
+  Serial.println("Radio byte received!");
   delay(2000);
   SendOK();
   
