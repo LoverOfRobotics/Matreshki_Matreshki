@@ -95,7 +95,7 @@ void setup() {
   lineP(v_global+20);
   lineG(v_global+20,170);
   right();
-  delay(16000);
+  // delay(16000);
   Serial.println("Приёмник запущен, ждём данные...");
 
   SendOK();//Отправка команды "Я готова!"
