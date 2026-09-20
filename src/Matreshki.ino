@@ -63,18 +63,18 @@ void setup() {
 
   waitForNextRadio();
   delay(5000);
-  lineG(60,400);
+  lineG(60,700);
   while (s2() > 70) {
     set_speed(0,100);
   }
   moveC(80,60);
   right();
-  kp = 0.2;
-  kd = 1;
+  kp = 0.1;
+  kd = 1.0;
   lineG(v_global+15,150);
   lineP(v_global+30);
   left();
-  lineG(v_global+10,500);
+  lineG(v_global+10,550);
   lineP(v_global+15);
   lineG(v_global+15,180);
   right();
@@ -87,7 +87,7 @@ void setup() {
 
   move(-v_global,75);
   kp = 0.3;
-  kd = 0.5;
+  kd = 0.8;
   lineG(v_global-7,150);
   move(-v_global,150);
   lineG(v_global,75);
@@ -97,7 +97,7 @@ void setup() {
   waitForNextRadio();
   right();
   kp = 0.5;
-  kd = 0.5;
+  kd = 0.8;
   lineG(v_global+4,800);
   lineP(v_global+4);
   while (s1() > 70) {
@@ -172,22 +172,22 @@ void setup() {
   left();
   SendOK();
   waitForNextRadio();
-  kp = 0.5;
-  kd = 0.5;
+  // kp = 0.5;
+  // kd = 0.5;
   lineP(v_global+13);//  по кругу
   left();
   left();
   delay(200);
-  kp = 0.5;
-  kd = 0.5;
+  // kp = 0.5;
+  // kd = 0.5;
   lineP(v_global+13);//  по кругу
-  kp = 0.3;
+  // kp = 0.3;
   delay(100);
   right();
   SendOK();
   waitForNextRadio();
-  kp = 0.3;
-  kd = 1;
+  // kp = 0.3;
+  // kd = 1;
   lineG(v_global,50);
   lineG(v_global+30,520);
   lineP(v_global+50);
@@ -201,8 +201,8 @@ void setup() {
   
   v_global = 50;
   right();
-  kp = 0.3;
-  kd = 1;
+  // kp = 0.3;
+  // kd = 1;
   lineG(60,430);
   move_sync(v_global,-v_global,85);
   encB = 0;
@@ -280,8 +280,8 @@ void setup() {
   left();
   moveB(100,60);
   moveC(100,75);
-  kp = 0.4;
-  kd = 1;
+  // kp = 0.4;
+  // kd = 1;
   //move(70,50);
   lineG(70,400);
   //move(200,400);
