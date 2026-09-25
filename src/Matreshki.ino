@@ -41,21 +41,22 @@ void setup() {
   radio.openReadingPipe(0, pipe); 
   radio.startListening();   
   delay(200);
-  // while (true){
-  //   delay(10);
-  //   Serial.print(analogRead(A0));
-  //   Serial.print("    ");
-  //   Serial.print(analogRead(A1));
-  //   Serial.print("    ");
-  //   Serial.print(s1());
-  //   Serial.print("    ");
-  //   Serial.println(s2());
-  //   // Serial.print("    ");
-  //   // Serial.print(encB);
-  //   // Serial.print("    ");
-  //   // Serial.println(encC);
-  //   //line(v_global);
-  // }
+
+//   while (true){
+//     delay(10);
+//     Serial.print(analogRead(A0));
+//     Serial.print("    ");
+//     Serial.print(analogRead(A1));
+//     Serial.print("    ");
+//     Serial.print(s1());
+//     Serial.print("    ");
+//     Serial.println(s2());
+//     // Serial.print("    ");
+//     // Serial.print(encB);
+//     // Serial.print("    ");
+//     // Serial.println(encC);
+//     //line(v_global);
+//   }
 
 
   // while (true){
@@ -77,7 +78,7 @@ void setup() {
   set_speed(100,100);
   delay(50);
   //delay(3000);
-  kp = 0.1;
+  kp = 0.35;
   kd = 1;
   lineG(v_global+15,700);
   move(100,150);
@@ -91,9 +92,9 @@ void setup() {
   moveB(80,60);
   //move_sync(-60,60,90);
   left();
-  kp = 0.1;
+  kp = 0.4;
   kd = 1;
-  lineG(v_global+20,150);
+  lineG(v_global+20,50);
   lineP(v_global+20);
   left();
   lineP(v_global+15);
@@ -113,13 +114,13 @@ void setup() {
   lineG(v_global,75);
   delay(300);
   lineP(v_global);
-  kp = 0.5;
+  kp = 0.8;
   kd = 1;
   SendOK();
    waitForNextRadio();
   left();
-  lineG(v_global+8,700);
-  lineP(v_global+8);
+  lineG(25,700);
+  lineP(25);
   moveB(-v_global,5);
   moveC(v_global+10,140);
   right();
@@ -180,29 +181,29 @@ void setup() {
   stop(v_global,v_global);
   delay(700);
   left();
-  kp = 0.1;
+  kp = 0.3;
   kd = 1;
   lineG(v_global+10,400);
   lineP(v_global+10);
   right();
   SendOK();
   waitForNextRadio();
-  kp = 0.6;
-  kd = 0.6;
+  kp = 0.7;
+  kd = 1.9;
   lineP(v_global+20);
   left();
   left();
   delay(100);
-  kp = 0.6;
-  kd = 0.6;
+  kp = 0.45;
+  kd = 1.6;
   lineP(v_global+20);
-  move_sync(-v_global,v_global,30);
+  move_sync(-v_global,v_global,50);
   left();
-  
   SendOK();
   waitForNextRadio();
-  kp = 0.3;
+  kp = 0.7;
   lineG(v_global-4,800);
+  lineP(v_global-4);
   lineP(v_global-4);
   right();
   lineG(v_global,145);
@@ -287,6 +288,10 @@ void setup() {
   right();
   lineG(50,220);
   move(80,620);
+  move_sync(-v_global,v_global,90);
+  move(80,50);
+  move_sync(-v_global,v_global,90);
+  lineP(40);
 }
 
 void loop() {
@@ -342,7 +347,7 @@ void set_speed(int left, int right){//Установка скорости
 
 void line(int v){//Функция движения по линии
   err = s1() - s2();
-  up = err * kp + (err-errOld) * kd;
+  up = err * (kp*2) + (err-errOld) * kd;
   vB = v+up;
   vC = v-up;
   if (vB > 255) vC = (v-up)/(vB/255);
@@ -375,7 +380,7 @@ void lineG(int v, int mm){//На мм по линии
   errOld = 0;
   gr = mm * 8.8;
   while (((encB+encC)/2) < gr){
-    line(v);
+    line(v+15);
     Serial.print(encB);
     Serial.print("   ");
     Serial.println(encC);
