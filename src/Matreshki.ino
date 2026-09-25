@@ -8,8 +8,8 @@ float up, gr;
 #define C 6
 #define C_back 5
 byte v_global = 50;
-float kp = 0.3;
-float kd = 0.5;
+float kp = 0.5;
+float kd = 1;
 
 #include <SPI.h>
 #include <RF24.h>
@@ -61,24 +61,27 @@ void setup() {
   // }
 
 
-  waitForNextRadio();
-  delay(5000);
-  lineG(60,700);
+  waitForNextRadio();//Ожидание данных с радио-модуля
+  delay(100);
+ // delay(1500);
+  lineG(60,550);
+  move(230,250);
   while (s2() > 70) {
     set_speed(0,100);
   }
-  moveC(80,60);
+  moveC(100,60);
   right();
-  kp = 0.1;
+  kp = 0.3;
   kd = 1.0;
-  lineG(v_global+15,150);
-  lineP(v_global+30);
+  lineG(v_global-3,150);
+  lineP(v_global);
   left();
   lineG(v_global+10,550);
   lineP(v_global+15);
-  lineG(v_global+15,180);
+  lineG(v_global+15,200);
   right();
   delay(10000);
+
   SendOK();
   waitForNextRadio();
   delay(500);
@@ -86,19 +89,23 @@ void setup() {
   Serial.println("Приёмник запущен, ждём данные...");
 
   move(-v_global,75);
-  kp = 0.3;
-  kd = 0.8;
+  kp = 0.3;   //0.3
+  kd = 0.8;   //0.8
   lineG(v_global-7,150);
   move(-v_global,150);
   lineG(v_global,75);
   delay(300);
+   kp = 0.5;   //0.3
+  kd = 1.0;   //0.8
   lineP(v_global);
+  
   SendOK();
   waitForNextRadio();
+
   right();
-  kp = 0.5;
-  kd = 0.8;
-  lineG(v_global+4,800);
+  kp = 0.65;    //0.75
+  kd = 1.0;     //0.8
+  lineG(v_global+4,900);
   lineP(v_global+4);
   while (s1() > 70) {
     set_speed(50,-50);
@@ -199,92 +206,34 @@ void setup() {
 
 
   
-  v_global = 50;
-  right();
-  // kp = 0.3;
-  // kd = 1;
-  lineG(60,430);
-  move_sync(v_global,-v_global,85);
-  encB = 0;
-  encC = 0;
-  delay(4000);
-  SendOK();
-  waitForNextRadio();
-  delay(300);
-
-
-  encB = 0;
-  encC = 0;
-  k = 1.77;
-  while (s1() > 50){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  encB = 0;
-  encC = 0;
-  while (((encB+encC)/2) < 350){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  stop(50,50);
-  delay(1000);
-  encB = 0;
-  encC = 0;
-  while (s1() > 50){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  encB = 0;
-  encC = 0;
-  while (((encB+encC)/2) < 350){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  stop(50,50);
-
-
-  SendOK();
-  waitForNextRadio();
-  left();
-  moveB(100,60);
-  moveC(100,75);
-  // kp = 0.4;
-  // kd = 1;
-  //move(70,50);
-  lineG(70,400);
-  //move(200,400);
+  // v_global = 50;
+  // right();
+  // // kp = 0.3;
+  // // kd = 1;
+  // lineG(60,430);
+  // move_sync(v_global,-v_global,90);
+  // encB = 0;
+  // encC = 0;
+  // delay(4000);
+  // SendOK();
+  // waitForNextRadio();
+  // delay(300);
+  
+  // move(50,200);
+  // move(-50,400);
+  // move(50,400);
+  // move(-50,200);
+  
+  // SendOK();
+  // waitForNextRadio();
+  // left();
+  // moveB(100,60);
+  // moveC(100,75);
+  // // kp = 0.4;
+  // // kd = 1;
+  // //move(70,50);
+  // lineG(70,400);
+  // //move(200,400);
 }
 
 void loop() {
@@ -307,7 +256,7 @@ void loop() {
 
 void line(int v){//Функция движения по линии
   err = s1() - s2();
-  up = err * kp + (err-errOld) * kd;
+  up = err * (kp*1.15) + (err-errOld) * kd;
   vB = v+up;
   vC = v-up;
   if (vB > 255) vC = (v-up)/(vB/255);
@@ -322,9 +271,9 @@ void line(int v){//Функция движения по линии
 void lineP(int v){//До перекрестка по линии
   up = 0;
   errOld = 0;
-  while ((s1() + s2()) > 20){
+  while ((s1() + s2()) > 15){
     line(v);
-    if ((s1() + s2()) < 20){break;}
+    if ((s1() + s2()) < 15){break;}
   }
   stop(vB,vC);
   move(v,20);
