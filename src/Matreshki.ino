@@ -44,7 +44,7 @@ void setup() {
   radio.begin();
   radio.setChannel(0x67);     
   radio.setDataRate(RF24_250KBPS);  
-  radio.setPALevel(RF24_PA_LOW);      // Уровень питания усилителя RF24_PA_MIN, RF24_PA_LOW, RF24_PA_HIGH and RF24_PA_MAX ((RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_HIGH=-6dBm, RF24_PA_MAX=0dBm).
+  radio.setPALevel(RF24_PA_MAX);      // Уровень питания усилителя RF24_PA_MIN, RF24_PA_LOW, RF24_PA_HIGH and RF24_PA_MAX ((RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_HIGH=-6dBm, RF24_PA_MAX=0dBm).
   radio.setAutoAck(false);         
   radio.setPayloadSize(1);         
   radio.openReadingPipe(0, pipe);
@@ -119,12 +119,13 @@ void setup() {
   waitForNextRadio();//Ожидание данных с радио-модуля
   delay(15000);
  // delay(1500);
-  lineG(60,250);
-  move(230,150);
+  lineG(60,550);
+  move(230,250);
   while (s2() > 70) {
     set_speed(0,100);
   }
   moveC(100,60);
+  delay(100);
   right();
   kp = 0.3;
   kd = 1;
@@ -135,7 +136,6 @@ void setup() {
   lineG(v_global,170);
   move_sync(-v_global,v_global,80);
   left();
-  // delay(7000);
   SendOK();
   waitForNextRadio();
   delay(300);
@@ -252,94 +252,24 @@ void setup() {
   lineG(v_global-8,800);
   lineP(v_global-8);
   right();
-  right();
-  SendOK();
-  waitForNextRadio();
   delay(350);
-  
-  k = 1.77;
-  encB = 0;
-  encC = 0;
-  while (((encB+encC)/2) < 550){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  encB = 0;
-  encC = 0;
-  while (s1() > 50){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  encB = 0;
-  encC = 0;
-  while (((encB+encC)/2) < 350){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  stop(50,50);
-  delay(1000);
-  encB = 0;
-  encC = 0;
-  while (s2() > 50){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  encB = 0;
-  encC = 0;
-  while (((encB+encC)/2) < 350){
-    errg = encB - encC*k;
-    upg = errg * 2 + (errg - errOldg) * 2;
-    set_speed(33*k-upg,30+upg);
-    Serial.print(upg);
-    Serial.print("   ");
-    Serial.print(encB);
-    Serial.print("   ");
-    Serial.println(encC);
-    errOldg = errg;
-    delay(10);
-  }
-  stop(50,50);
 
-  SendOK();
-  delay(15000);
   v_global = 60;
-  left();
   v_global = 50;
   kp = 0.5;
-  lineG(v_global,300);
+  lineG(v_global,250);
   servo.write(700);
+   delay(1000);
+move_sync(-v_global,v_global,90);
+SendOK();
+waitForNextRadio();
+  move(-v_global+6,200);
+  move(v_global-6,400);
+  move(-v_global+6,200);
+  SendOK();
+  waitForNextRadio();
+move(-v_global+6,300);
+
   while (true){//Режим "Потерялася"
     set_speed(60,0);
     servo.write(700);
@@ -356,9 +286,9 @@ void setup() {
   servo.write(2300);
   long tmr = millis();
   while ((millis() - tmr) < 25000){//Режим нахождения
-    if (sensorR.readRangeContinuousMillimeters() > 50 && sensorR.readRangeContinuousMillimeters() < 200) set_speed(50,-10);
-    else if (sensorL.readRangeContinuousMillimeters() > 50 && sensorL.readRangeContinuousMillimeters() < 200) set_speed(-10,50);
-    else set_speed(48,60);
+    if (sensorR.readRangeContinuousMillimeters() > 50 && sensorR.readRangeContinuousMillimeters() < 160) set_speed(-15,60);
+    else if (sensorL.readRangeContinuousMillimeters() > 50 && sensorL.readRangeContinuousMillimeters() < 160) set_speed(60,-15);
+    else set_speed(50,60);
   }
   set_speed(0,0);
 
@@ -665,7 +595,6 @@ void SendOK(){//Функция отправка данных на радио-м�
   radio.startListening();
   radio.openReadingPipe(0, pipe);
 }
-
 
 void counterB(){//Энкодер правый
   encB++;
