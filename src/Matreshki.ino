@@ -104,7 +104,7 @@ void setup() {
   SendOK();
   waitForNextRadio();
   delay(500);
-  kp = 0.3;
+  kp = 0.15;
   kd = 0.6;
   move(-v_global,75);
   lineG(v_global,150);
@@ -114,16 +114,16 @@ void setup() {
   lineG(v_global,75);
   delay(300);
   lineP(v_global);
-  kp = 0.8;
+  kp = 0.4;
   kd = 1;
   SendOK();
    waitForNextRadio();
   left();
-  lineG(25,700);
-  lineP(25);
-  moveB(-v_global,5);
-  moveC(v_global+10,140);
-  right();
+  lineG(v_global,700);
+  lineP(v_global);
+  move_sync(-v_global, v_global, 30);
+  left();
+  lineG(v_global, 60);
   delay(2000);
   SendOK();
   waitForNextRadio();
@@ -201,21 +201,21 @@ void setup() {
   left();
   SendOK();
   waitForNextRadio();
+  delay(9000);
   kp = 0.7;
-  lineG(v_global-4,800);
-  lineP(v_global-4);
+  lineG(v_global-4,900);
   lineP(v_global-4);
   right();
   lineG(v_global,145);
-  move_sync(-v_global,v_global,86);
+  move_sync(v_global,-v_global,86);
   SendOK();
   waitForNextRadio();
   //delay(500);
 
 
-  move(v_global, 250);
-  move(-v_global, 500);
-  move(v_global, 250);
+  move(-v_global, 200);
+  move(v_global, 400);
+  move(-v_global, 200);
 
   // encB = 0;
   // encC = 0;
@@ -284,13 +284,13 @@ void setup() {
 
   SendOK();
   waitForNextRadio();
-  delay(12000);
-  right();
+  delay(1000);
+  left();
   lineG(50,220);
-  move(80,620);
-  move_sync(-v_global,v_global,90);
-  move(80,50);
-  move_sync(-v_global,v_global,90);
+  moveC(v_global, 90);
+  moveB(v_global, 90);
+  move(80,70);
+  lineG(50, 600);
   lineP(40);
 }
 
