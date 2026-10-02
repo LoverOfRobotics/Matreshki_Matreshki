@@ -51,9 +51,7 @@ void setup() {
   radio.startListening();
   attachInterrupt(digitalPinToInterrupt(3),counterB,RISING);
   attachInterrupt(digitalPinToInterrupt(2),counterC,RISING);
-  servo.attach(4);
-  servo.write(2300);// фулл вниз
-  //servo.write(900);   фулл вверх
+  
 
 
   pinMode(A2, OUTPUT);
@@ -80,9 +78,13 @@ void setup() {
 
   Serial.println("Приёмник запущен, ждём данные...");
 
+servo.attach(4);
+  servo.write(2300);// фул влниз
+  // servo.write(700);   //фулл вверх
+
 
   // while (true){
-  //   // delay(10);
+  //   delay(10);
   //   // Serial.print(encB);
   //   // Serial.print("    ");
   //   // Serial.print(encC);
@@ -101,20 +103,20 @@ void setup() {
   //   Serial.println(sensorR.readRangeContinuousMillimeters());
   // }
   //   // if (sensorR.readRangeContinuousMillimeters() > 60 && sensorR.readRangeContinuousMillimeters() < 120) set_speed(100,0);
-  //   // else if (sensorL.readRangeContinuousMillimeters() > 60 && sensorL.readRangeContinuousMillimeters() < 220) set_speed(0,100);
-  //   // else set_speed(48,60);
-  //   // servo.write(700);
-  //   // delay(1000);
-  //   // servo.write(2000);
-  //   // delay(1000);
-  //}
+    // else if (sensorL.readRangeContinuousMillimeters() > 60 && sensorL.readRangeContinuousMillimeters() < 220) set_speed(0,100);
+    // else set_speed(48,60);
+    // servo.write(700);
+    // delay(1000);
+    // servo.write(2000);
+    // delay(1000);
+  // }
 
 
   // while (true){
   //   SendOK();
   //   waitForNextRadio();
   //   delay(3000);
-  // }
+   //}
 
   waitForNextRadio();//Ожидание данных с радио-модуля
   delay(15000);
@@ -137,9 +139,9 @@ void setup() {
   move_sync(-v_global,v_global,80);
   left();
   SendOK();
-  waitForNextRadio();
+  waitForNextRadio(); // пиехали
   delay(300);
-  kp = 0.3;
+  kp = 0.5;
   kd = 1;
   move(-v_global+6,75);
   lineG(v_global-6,150);
@@ -149,20 +151,22 @@ void setup() {
   lineG(v_global-6,75);
   delay(300);
   lineP(v_global-6);
+  delay(200);
   SendOK();
-  waitForNextRadio();
+  waitForNextRadio();//проехали вперёт назад 
+  delay(200);
   right();
   kp = 0.3;
   kd = 1;
   lineG(v_global-1,900);
   lineP(v_global+1);
-  kp = 0.2;
-  moveB(v_global,170);
-  left();
-  delay(2000);
+  kp = 0.17;
+  right();
+  lineG(v_global-1,70);
+  delay(1000);
+
   SendOK();
-  
-  waitForNextRadio();
+  waitForNextRadio(); //подг к кругу 
   move_sync(-v_global,v_global,80);
   delay(100);
 
@@ -229,15 +233,16 @@ void setup() {
   // lineP(v_global+12);
   // lineP(v_global+12);
   right();
+  delay(300);
   SendOK();
-  waitForNextRadio();
+  waitForNextRadio();//yf ujnjdt 
   kp = 0.3;
   kd = 0.5;
   lineP(v_global+5);
   left();
   left();
-  kp = 0.3;
-  kd = 0.5;
+  kp = 0.5;
+  kd = 1;
   lineP(v_global+5);
   while (s2()>70){
     set_speed(-v_global,v_global);
@@ -245,8 +250,8 @@ void setup() {
   stop(-v_global,v_global);
   left();
   SendOK();
-  waitForNextRadio();
-  delay(2000);
+  waitForNextRadio();//fshdfh
+  delay(5000);
   kp = 0.2;
   kd = 1;
   lineG(v_global-8,800);
@@ -257,8 +262,8 @@ void setup() {
   v_global = 60;
   v_global = 50;
   kp = 0.5;
-  lineG(v_global,250);
-  servo.write(700);
+  lineG(v_global,200);
+  
    delay(1000);
 move_sync(-v_global,v_global,90);
 SendOK();
@@ -266,9 +271,13 @@ waitForNextRadio();
   move(-v_global+6,200);
   move(v_global-6,400);
   move(-v_global+6,200);
+delay(400);
   SendOK();
   waitForNextRadio();
+  
+
 move(-v_global+6,300);
+servo.write(700);
 
   while (true){//Режим "Потерялася"
     set_speed(60,0);
