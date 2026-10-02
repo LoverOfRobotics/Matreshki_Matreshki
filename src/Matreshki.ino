@@ -78,7 +78,7 @@ void setup() {
   set_speed(100,100);
   delay(50);
   //delay(3000);
-  kp = 0.35;
+  kp = 0.5;
   kd = 1;
   lineG(v_global+15,700);
   move(100,150);
@@ -104,18 +104,18 @@ void setup() {
   SendOK();
   waitForNextRadio();
   delay(500);
-  kp = 0.15;
+  kp = 0.4;
   kd = 0.6;
   move(-v_global,75);
   lineG(v_global,150);
   move(-v_global,150);
-  kp = 0.4;
-  kd = 1;
+  kp = 0.6;
+  kd = 3;
   lineG(v_global,75);
   delay(300);
   lineP(v_global);
   kp = 0.4;
-  kd = 1;
+  kd = 1.5;
   SendOK();
    waitForNextRadio();
   left();
@@ -203,7 +203,8 @@ void setup() {
   waitForNextRadio();
   delay(9000);
   kp = 0.7;
-  lineG(v_global-4,900);
+  lineG(v_global-4,500);
+  lineP(v_global-4);
   lineP(v_global-4);
   right();
   lineG(v_global,145);
@@ -217,68 +218,7 @@ void setup() {
   move(v_global, 400);
   move(-v_global, 200);
 
-  // encB = 0;
-  // encC = 0;
-  // k = 1.77;
-  // while (s1() > 50){
-  //   errg = encB - encC*k;
-  //   upg = errg * 2 + (errg - errOldg) * 2;
-  //   set_speed(33*k-upg,30+upg);
-  //   Serial.print(upg);
-  //   Serial.print("   ");
-  //   Serial.print(encB);
-  //   Serial.print("   ");
-  //   Serial.println(encC);
-  //   errOldg = errg;
-  //   delay(10);
-  // }
-  // encB = 0;
-  // encC = 0;
-  // while (((encB+encC)/2) < 350){
-  //   errg = encB - encC*k;
-  //   upg = errg * 2 + (errg - errOldg) * 2;
-  //   set_speed(33*k-upg,30+upg);
-  //   Serial.print(upg);
-  //   Serial.print("   ");
-  //   Serial.print(encB);
-  //   Serial.print("   ");
-  //   Serial.println(encC);
-  //   errOldg = errg;
-  //   delay(10);
-  // }
-  // stop(50,50);
-  // delay(1500);
-  // encB = 0;
-  // encC = 0;
-  // while (s1() > 50){
-  //   errg = encB - encC*k;
-  //   upg = errg * 2 + (errg - errOldg) * 2;
-  //   set_speed(33*k-upg,30+upg);
-  //   Serial.print(upg);
-  //   Serial.print("   ");
-  //   Serial.print(encB);
-  //   Serial.print("   ");
-  //   Serial.println(encC);
-  //   errOldg = errg;
-  //   delay(10);
-  // }
-  // encB = 0;
-  // encC = 0;
-  // while (((encB+encC)/2) < 350){
-  //   errg = encB - encC*k;
-  //   upg = errg * 2 + (errg - errOldg) * 2;
-  //   set_speed(33*k-upg,30+upg);
-  //   Serial.print(upg);
-  //   Serial.print("   ");
-  //   Serial.print(encB);
-  //   Serial.print("   ");
-  //   Serial.println(encC);
-  //   errOldg = errg;
-  //   delay(10);
-  // }
-  // stop(50,50);
-
-
+ 
 
   //конец дуги в одну линию
 
@@ -286,6 +226,7 @@ void setup() {
   waitForNextRadio();
   delay(1000);
   left();
+  lineP(v_global+4);
   lineG(50,220);
   moveC(v_global, 90);
   moveB(v_global, 90);
